@@ -1,6 +1,6 @@
 FROM centos:6
 
-RUN  yum install -y curl nano wget \
+RUN  yum install -y curl wget \
 	&& yum clean all
 	
 RUN curl -ko /tmp/xi-latest.tar.gz "https://assets.nagios.com/downloads/nagiosxi/xi-latest.tar.gz"
