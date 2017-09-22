@@ -13,13 +13,14 @@ ENV INTERACTIVE="False"
 ENV INSTALL_PATH=/tmp/nagiosxi
 
 RUN sed -i "s/selinux/sudoers/g" 9-dbbackups 
-RUN rm -rf ./subcomponents/ndoutils
-COPY ndoutils/ subcomponents/ndoutils/
+
 COPY xi-sys.cfg ./xi-sys.cfg
+COPY fix-ndoutils.sh ./fix-ndoutils.sh
 
 EXPOSE 80 5666 5667
 
 RUN  ./init.sh \
+     && log=install.log \
      && source ./xi-sys.cfg \
      && source ./functions.sh \ 
      && run_sub ./0-repos noupdate \
@@ -33,8 +34,9 @@ RUN  ./init.sh \
      && run_sub ./11-sourceguardian \
      && run_sub ./12-mrtg \
      && run_sub ./13-timezone \
-     && run_sub ./A-subcomponents \
      && service mysqld start \
+     && ./fix-ndoutils.sh \
+     && run_sub ./A-subcomponents \
      && run_sub ./B-installxi \
      && run_sub ./C-cronjobs \
      && run_sub ./D-chkconfigalldaemons \
