@@ -17,8 +17,6 @@ RUN sed -i "s/selinux/sudoers/g" 9-dbbackups
 COPY xi-sys.cfg ./xi-sys.cfg
 COPY fix-ndoutils.sh ./fix-ndoutils.sh
 
-EXPOSE 80 5666 5667
-
 RUN  ./init.sh \
      && log=install.log \
      && source ./xi-sys.cfg \
@@ -44,6 +42,7 @@ RUN  ./init.sh \
      && run_sub ./F-startdaemons \
      && run_sub ./Z-webroot
 
-COPY run.sh /usr/local/bin/run.sh
+EXPOSE 80
 
+COPY run.sh /usr/local/bin/run.sh
 CMD ["run.sh"]
