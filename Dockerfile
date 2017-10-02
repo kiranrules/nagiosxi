@@ -1,11 +1,13 @@
 FROM centos:6
 
-RUN  yum install -y curl wget \
+RUN  yum install -y wget tar \
 	&& yum clean all
-	
-RUN curl -ko /tmp/xi-latest.tar.gz "https://assets.nagios.com/downloads/nagiosxi/xi-latest.tar.gz"
 
-RUN tar -zxf /tmp/xi-latest.tar.gz -C /tmp 
+WORKDIR /tmp
+	
+RUN wget -nv "https://assets.nagios.com/downloads/nagiosxi/5/xi-5.4.10.tar.gz"
+
+RUN tar -zxf xi-5.4.10.tar.gz
 		
 WORKDIR /tmp/nagiosxi
 
